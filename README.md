@@ -22,6 +22,8 @@ The release completed **1,017 of 1,024 fresh campaigns (99.32%)**, averaging **2
 
 Final release results and protocol are recorded in [evaluation.json](evaluation.json). A full-campaign win means all 25 authored rounds cleared in a single attempt. These are native GPU evaluation results; browser parity checks are a separate port-validation measurement. Floating-point differences across GPUs can change individual decisions, so the measured rate is not a guarantee for every browser or seed.
 
+The browser also completed one entire original-game campaign with no retries, checking 18,584 requests against a native shadow with **zero action mismatches**. The shadow did not control the game.
+
 The accepted release freezes performance rather than claiming a perfect success rate. Model and controller files are verified against [policy-manifest.json](policy-manifest.json) when loaded.
 
 ## Files and local serving

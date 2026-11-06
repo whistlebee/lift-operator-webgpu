@@ -1,0 +1,23 @@
+{
+  "schema_version": 16,
+  "dispatch_score_scale": 0,
+  "routing_context_rms": true,
+  "manual_retarget": true,
+  "dispatch_gate": false,
+  "dispatch_choice": false,
+  "service_mask": true,
+  "all_lifts": true,
+  "switch_cooldown_frames": 0,
+  "integrated_shop": true,
+  "activation_head": false,
+  "activation_prior_limit": 1,
+  "item_activation": true,
+  "eligible_vip_scoring": true,
+  "boardable_pickup_scoring": true,
+  "boardable_count_scoring": true,
+  "oldest_cargo_strength": 24,
+  "shop_wrench_penalty": 32,
+  "shop_other_stock_penalty": 32,
+  "shop_other_stock_item": 3,
+  "loaded_pickup_strength": 1
+}

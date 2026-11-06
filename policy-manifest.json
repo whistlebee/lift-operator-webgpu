@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "scope": "Browser-only inference build; campaign reliability and native parity must be evaluated separately.",
+  "weights": {
+    "model.bin": "02552663dc9be19921b0d8dfaee46cd883ed13a104b680174b4b3bce74f53e1b",
+    "model.bin.json": "0d2eda6f63b7295cc59c19e0a106ef38b053d73d5c58b9dd1a53931c8a752390",
+    "model.bin.policy.json": "dab2ce211a952915a57202a8feb128d7c67e71e271d35ebbba6e1a12b35a6495",
+    "model.bin.item-activation-head.bin": "d647921e6b76c0116224ec2e0d252ad48627139d3b54f42987ed9ad201d6195b",
+    "model.bin.item-activation-head.bin.json": "2578af67a17a1bd30d6e75593e99754e02b22db9ba9ecd3b17c90ce738530391",
+    "model.bin.item-activation.json": "b5161178a20cc8d02ea811b4b8a95c5ea1264538a803e368b4fd916771e69e02",
+    "budget.json": "2e53fedc048532d5f07d1a4a9856c6439cf142561bb9f3ad55a8016d8f286501",
+    "exchange.json": "d18e313169a5e8ccd6b152c34252ddf16fdfb33b5b30a3c38eb30ceb11ca47ed",
+    "coupled.json": "4fbb9e577d3912d57a32c6c45ed3cb990ddb27410339222138e4f42eb5d475ae",
+    "capsule.json": "c394859decb3f64af327ae9992ec4a3511ecff9b8d0b308d191fcc28478dfbe9",
+    "campaign-controls.json": "de65c475c894cc31cf73dad50a1bca20ce2e3d93f7129fb7c2f20b50bb7da72e",
+    "ordinary/round-10.json": "9f7aa11d9bbefe9803529ff86652da47c6e22f11e883053dbb5fbb446b5c917a",
+    "ordinary/round-14.json": "b2518d23627c293169886127ac0169395699a14b29d01e15918436d6a81584f8",
+    "ordinary/round-15.json": "a8708dd37a9d0d4f3ed9c8f14833fa3350883e6413b62c1836a5abb87424f9f1",
+    "ordinary/round-16.json": "de5d532ad63ee9c73cefe6033fed11bb9c882f521d5b4c99b312064406b07bcc",
+    "ordinary/round-17.json": "69d29970060293f69446cfb194f26ce3fb41fc3b7c2eab97d5b68e6f41cef2a6",
+    "ordinary/round-18.json": "309b31e119ac12a12cdf34cbbc7488d139b2ddd50db65b549fcdc565113509fa",
+    "ordinary/round-19.json": "6d1306d091ddd939f19fd206f4524b6ee13bc63a3260073909d40780a3d0dcb2",
+    "ordinary/round-22.json": "e875b2ad713bee0f77666ba05649ae45c68a710cbe33d68371f5b4fb29650369",
+    "ordinary/round-6.json": "dba8b22f43f50e14ab6406eb06007f430311b88e01284faad5d8e1e50c13ca7e",
+    "ordinary/round-8.json": "2a91035ce33368610c93d3cf949ff0f61a654c454ba6aa755178d8c4cd984552",
+    "ordinary/round-9.json": "dbd0fa1fd8afec28209c76fc1c79f47a31393c22fc1b6e98e1edc6c16cb0a25c"
+  }
+}

@@ -1,94 +1,40 @@
-# Lift Operator
+# Lift Operator — browser WebGPU agent
 
-**Keep the hotel moving: route a growing elevator fleet, automate the pressure and solve each chaotic shift.**
+[Watch the agent](https://whistlebee.github.io/lift-operator-webgpu/?simulation=true) · [Original game](https://github.com/gregorycwhill/Lift-Operator)
 
-Lift Operator is an elevator management game about dispatching a growing hotel fleet, learning automation and solving increasingly chaotic shifts.
+This is a clone of Gregory Hill's Lift Operator with a trained campaign agent running inside your browser. Neural inference uses WebGPU; no Python, native executable, inference service, or API key is required.
 
-## [▶ Play Now — GitHub Pages](https://gregorycwhill.github.io/Lift-Operator/)
+## Run a campaign
 
-**Status:** RC1.0 desktop playtest · 25-round campaign · supported on current Chrome or Edge on a desktop/laptop.
-Firefox is not currently a supported browser.
+Open the link above in a browser with WebGPU enabled. Click **Run campaign** in the agent bar. It starts at round 1 with zero credits, carries earned credits forward, and stops on the first failed round. **Allow retries** is off by default. Choose **Max** speed to watch faster, or pause and inspect. A standalone round uses the selected round, credits, and seed instead.
 
-| First dispatch | Supply Closet |
-| --- | --- |
-| ![First dispatch: guests and a manually controlled lift](assets/media/campaign-basic-dispatch.png) | ![Supply Closet: round briefing and power-up choices](assets/media/campaign-supply-closet.png) |
-| Read the building, dispatch the first car, and keep guests calm. | Choose a loadout that matches the next round’s challenge. |
+The campaign's endurance round ends by natural death, as defined by the original game; it is not a survival-until-a-short-timeout shortcut. Round mode and retry-enabled campaigns are not the benchmark protocol.
 
-| Automation Workshop | Zoned fleet |
-| --- | --- |
-| ![Automation Workshop: Blockly policy editor](assets/media/campaign-workshop.png) | ![Zoned fleet: wide building with visible service zones](assets/media/campaign-zoning-fleet.png) |
-| Turn operational ideas into lift policies with Blockly. | Assign a growing fleet to overlapping service zones. |
+## What the agent is
 
-| Counterweight puzzle | Capsule dispatch at scale |
-| --- | --- |
-| ![Counterweight round: paired lift cars and pulley loops](assets/media/campaign-counterweights-live.png) | ![Capsule dispatch: wide dashboard and high-speed tubes](assets/media/campaign-capsule-operations.png) |
-| Paired cars move in opposition; Open Plan becomes a lifeline. | Twenty single-passenger capsules reward smart automation over frantic clicking. |
+The frozen agent combines a shared passenger encoder, four 64-wide recurrent layers, learned routing/item heads, fitted per-round dispatch controllers, and a paid-shop spending planner. Some behaviors are explicit rules, including the public-history VIP reservation. This is a hybrid learned-and-programmed policy, not a claim that unassisted PPO learned the whole game.
 
-## What’s in the campaign
+It receives structured current game state, including exact passenger queues and lift positions, rather than screenshots. Hidden future passenger destinations and VIP return schedules are excluded from its observation. Publicly observed past VIP trips can be remembered. All lifts are manually commanded, with one decision every 15 simulation frames (4 decisions per second). Purchases are charged at the game's normal prices, with normal unlocks and no free inventory or starting credits.
 
-- Fast, readable lift dispatch that grows into fleet-management puzzles.
-- Built-in and Workshop-authored automations, including Service Zoning.
-- Power-ups, VIP journeys, Checkout demand, Rooftop Parties, counterweights, and capsule tubes.
-- Persistent Credits, deterministic seeds, and local pre-round campaign resume for repeatable problem-solving.
-- Welcome, How to Play, Credits & Licences, menu/Rooftop music and SFX controls, and an in-game feedback action that pre-fills the form with game details and copies them locally.
+## Evaluation
 
-## Help improve it
+The release completed **1,017 of 1,024 fresh campaigns (99.32%)**, averaging **24.92 of 25 rounds**. The prior policy completed 1,010/1,024 (98.63%) on the same seeds.
 
-- Use **Give Feedback** in Settings or Round Review. It opens the feedback form with a compact diagnostic pre-filled
-  and also copies that string to your clipboard. Opening the feedback form sends these technical details to Google to
-  pre-fill the form: round, seed, browser and viewport. No feedback response is submitted unless you press **Submit**.
-- Feedback is collected through the configured Google Form for player, technical, balance, and accessibility reports.
-  The form is shared by link and does not collect email addresses.
-  The form is opened only by your action and the game never submits a response automatically.
-- **Settings → Clear local data…** removes this browser's campaign, local leaderboard, custom automations, and audio
-  settings after a confirmation. It does not send or affect anyone else's data.
-- See the concise [RC1 Playtest Pack](docs/playtest/RC1_PLAYTEST_PACK.md) for current priorities and a report template.
+Final release results and protocol are recorded in [evaluation.json](evaluation.json). A full-campaign win means all 25 authored rounds cleared in a single attempt. These are native GPU evaluation results; browser parity checks are a separate port-validation measurement. Floating-point differences across GPUs can change individual decisions, so the measured rate is not a guarantee for every browser or seed.
 
-## Contributors and project documentation
+The accepted release freezes performance rather than claiming a perfect success rate. Model and controller files are verified against [policy-manifest.json](policy-manifest.json) when loaded.
 
-Lift Operator is a hobby project designed to help children move from Scratch into purposeful programming. The current
-release work is correctness, performance, balance, usability, and device acceptance—not feature expansion. Start with
-[DOCUMENTATION.md](DOCUMENTATION.md) for document roles, then see [LICENSE](LICENSE) and
-[NOTICE.md](NOTICE.md), and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) before redistributing a build.
+## Files and local serving
 
-| Need | Document |
-| --- | --- |
-| Product direction and sequence | [ROADMAP.md](ROADMAP.md) |
-| Current implementation/release scope | [DELIVERY_PLAN.md](DELIVERY_PLAN.md) |
-| Current evidence and release gates | [TEST_PLAN.md](TEST_PLAN.md) |
-| Durable product rules | [GDD](Lift-Operator_GDD.md), [Game Play Map](Game%20Play%20Map.md), [Game Economy](Game%20Economy.md) |
-| Workshop and Automation Dock contract | [Automation Workshop specification](Automation_Workshop_Spec.md) |
-| Current playtest intake | [Feedback log](docs/playtest/PLAYTEST_FEEDBACK_LOG.md) |
-| Material chat decisions | [Chat decision log](docs/CHAT_DECISION_LOG.md) |
-| Audio source and credit record | [Audio attribution](assets/audio/ATTRIBUTION.md) |
-| Canonical release screenshots | [Release media manifest](assets/media/README.md) |
+- `webgpu/`: FP32 neural kernels, sampling, routing, item and campaign controllers.
+- `policy/`: frozen weights and controller configuration; no optimizer state.
+- `bogeo-driver.js`: original-game observation/action bridge and campaign controls.
+- `bogeo-adapter.js`, `bogeo-shop.js`: deterministic simulation and paid-shop adapters.
 
-## Local development
+Serve the repository with any static HTTP server; do not open `index.html` using a file URL. WebGPU requires a secure context (HTTPS or localhost). With Node installed, `node tests/test-server.js` starts the existing local server. Add `?simulation=true` to its URL. No compilation or dependency installation is needed for the deployed site.
 
-Requirements: Node.js 24 or a current supported LTS release, npm, and Playwright Chromium (install once with
-`npx.cmd playwright install chromium`).
+## Credits and licence
 
-```powershell
-npm.cmd install
-npm.cmd run serve
-```
+Original game, artwork and game design: **Gregory Hill**. Original repository history is retained, based on commit `2e082ddbc8a8180cc8cc6466b77619003721f9c2`. Browser agent integration and inference files were added in November 2026. Original documentation remains in [UPSTREAM_README.md](UPSTREAM_README.md).
 
-Open `http://127.0.0.1:5500/` for local play. Use `npm.cmd run test:smoke` for a fast gate and
-`npm.cmd run test:full` for the supported comprehensive suite.
-
-After changing `design/game-balance.v1.json`, run:
-
-```powershell
-npm.cmd run balance:generate
-npm.cmd run balance:check
-```
-
-Create diagnostic screenshots and a social-preview image with `npm.cmd run capture:media`; curated README screenshots
-are governed by the [release media manifest](assets/media/README.md). Create a local itch.io-compatible ZIP from the
-current commit with `npm.cmd run package:itch`.
-
-## Security philosophy
-
-The source is intentionally inspectable. Lift Operator protects the experience from accidents, not from curious
-players: malformed payloads and broken scripts fail safely, while Workshop scripts run through bounded containment.
-Strong authentication, anti-cheat, and adversarial source protection are not product goals.
+The code and modifications are distributed under [GPL-3.0-only](LICENSE). See [NOTICE.md](NOTICE.md), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), and [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) for upstream asset and audio attribution and applicable terms.

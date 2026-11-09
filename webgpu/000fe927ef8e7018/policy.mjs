@@ -1,12 +1,11 @@
-// Shared neural policy, before the campaign bundle's fitted controllers and
-// paid-shop planning. Do not deploy this alone as the qualified campaign agent.
+// Frozen base policy. The distilled shop and lift networks complete inference.
 import {LiftNetwork} from './network.mjs';
 import {FleetTransform} from './fleet.mjs';
 import {PolicyPrograms} from './programs.mjs';
 import {ItemBank} from './items.mjs';
 import {buildItemInputs,itemFeatureConfiguration} from './item_features.mjs';
 import {FleetSampler,fleetDraws} from './sampling.mjs';
-import {applyItemTiming,validateItemTiming} from './shop.mjs';
+import {applyItemTiming,validateItemTiming} from './item_timing.mjs';
 
 export class LiftPolicy {
   static async create(device,{model,modelMetadata,policyMetadata,itemModel,itemMetadata,itemFeatures}){
@@ -69,7 +68,7 @@ export class LiftPolicy {
       let logits=await this.programs.apply('shop',observation,base.mask,items.logits,{...this.options,done});
       if(timing!==null)logits=applyItemTiming(observation,base.mask,logits,timing);
       const sampled=await this.sampler.sample(logits,base.mask,draws);
-      return {...sampled,logits,mask:base.mask,draws,state:network.state,base:base.logits,itemInputs:inputs};
+      return {...sampled,logits,mask:base.mask,draws,state:network.state,hidden:network.hidden,base:base.logits,itemInputs:inputs};
     }finally{this.busy=false;}
   }
 

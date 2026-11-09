@@ -1,42 +1,85 @@
-# Lift Operator — browser WebGPU agent
+# Lift Operator — distilled browser agent
 
-[Watch the agent](https://whistlebee.github.io/lift-operator-webgpu/?simulation=true) · [Original game](https://github.com/gregorycwhill/Lift-Operator)
+[Watch the agent](https://whistlebee.github.io/lift-operator-webgpu/?simulation=true&policy=distilled-20261109) · [Original game](https://github.com/gregorycwhill/Lift-Operator)
 
-This is a clone of Gregory Hill's Lift Operator with a trained campaign agent running inside your browser. Neural inference uses WebGPU; no Python, native executable, inference service, or API key is required.
+A trained campaign agent runs in your browser using WebGPU. No Python, native
+executable, inference service or API key is required.
 
 ## Run a campaign
 
-Open the link above in a browser with WebGPU enabled. Click **Run campaign** in the agent bar. It starts at round 1 with zero credits, carries earned credits forward, and stops on the first failed round. **Allow retries** is off by default. Choose **Max** speed to watch faster, or pause and inspect. A standalone round uses the selected round, credits, and seed instead.
+Open the link in a WebGPU-capable browser and click **Run campaign**. It starts
+round 1 with zero credits, uses ordinary paid purchases and earned credit
+carryover, and stops at the first failed round. **Allow retries** is off by
+default. Select **Max** speed to watch faster, or pause to inspect the game.
+Standalone round mode uses the selected round and starting credits instead.
 
-The campaign's endurance round ends by natural death, as defined by the original game; it is not a survival-until-a-short-timeout shortcut. Round mode and retry-enabled campaigns are not the benchmark protocol.
+The endurance round completes by natural death as defined by the original game;
+it is not a short survival-time shortcut. Retry-enabled and standalone runs are
+not the full-campaign benchmark protocol.
 
-## What the agent is
+## The deployed policy
 
-The frozen agent combines a shared passenger encoder, four 64-wide recurrent layers, learned routing/item heads, fitted per-round dispatch controllers, and a paid-shop spending planner. Some behaviors are explicit rules, including the public-history VIP reservation. This is a hybrid learned-and-programmed policy, not a claim that unassisted PPO learned the whole game.
+This release uses a shared learned **shop network** and a shared learned
+**lift–floor scorer**, alongside the existing passenger encoder, four 64-wide
+recurrent layers, routing and item-use networks. The lift and shop heads were
+distilled from a qualified controller. This is not a claim that unassisted PPO
+learned the complete game.
 
-It receives structured current game state, including exact passenger queues and lift positions, rather than screenshots. Hidden future passenger destinations and VIP return schedules are excluded from its observation. Publicly observed past VIP trips can be remembered. All lifts are manually commanded, with one decision every 15 simulation frames (4 decisions per second). Purchases are charged at the game's normal prices, with normal unlocks and no free inventory or starting credits.
+The runtime no longer loads the per-round dispatch files, coupled/capsule
+controller files, private VIP-reservation rule, credit reserve tables or basket
+substitution plans. Learned shop choices go through the game's ordinary checkout.
+The retained item-use timing, base-policy settings and round-21 shop-memory reset
+match the evaluated policy; removing those would change its behaviour.
 
-## Evaluation
+Inputs are structured current game state, including passenger queues and lift
+positions, rather than screenshots. Hidden future passenger/VIP schedules are
+excluded. Publicly observed VIP history and recurrent state can be remembered.
+All lifts are commanded manually at 15 simulation frames per decision. There are
+no free purchases, supplied inventory or bonus starting credits.
 
-The release completed **1,017 of 1,024 fresh campaigns (99.32%)**, averaging **24.92 of 25 rounds**. The prior policy completed 1,010/1,024 (98.63%) on the same seeds.
+## Independent evaluation
 
-Final release results and protocol are recorded in [evaluation.json](evaluation.json). A full-campaign win means all 25 authored rounds cleared in a single attempt. These are native GPU evaluation results; browser parity checks are a separate port-validation measurement. Floating-point differences across GPUs can change individual decisions, so the measured rate is not a guarantee for every browser or seed.
+The frozen distilled checkpoint completed **2,011/2,048 fresh campaigns (98.19%)**.
+Its 95% Wilson interval is **97.52–98.69%**. The teacher completed 2,024/2,048
+(98.83%) on the same seeds. This confirms high campaign reliability, not perfect
+success or statistical equivalence to the teacher.
 
-The browser also completed one entire original-game campaign with no retries, checking 18,584 requests against a native shadow with **zero action mismatches**. The shadow did not control the game.
+The panel was fixed before evaluation; no training or checkpoint selection took
+place during confirmation. Details, per-batch outcomes and checkpoint identity
+are recorded in [evaluation.json](evaluation.json). A win means all 25 authored
+rounds completed in one attempt.
 
-The accepted release freezes performance rather than claiming a perfect success rate. Model and controller files are verified against [policy-manifest.json](policy-manifest.json) when loaded.
+The browser completed one full original-game campaign with no retries. Of
+18,336 native-shadow comparisons, 18,334 actions matched exactly; two differed
+by no more than a single FP32 score rounding step.
+No larger action-ranking difference occurred. The native worker never controlled
+the game. A separate fixed-input GPU check passed 409,600 feature and 980 legal
+score comparisons across all 25 rounds.
+
+Those are native GPU simulation results. Browser validation is a separate port
+check, not a 2,048-campaign browser benchmark. FP32 rounding varies between GPU
+implementations; equal or nearly equal action scores can resolve differently.
+Model assets are SHA-256 verified against [policy-manifest.json](policy-manifest.json).
 
 ## Files and local serving
 
-- `webgpu/`: FP32 neural kernels, sampling, routing, item and campaign controllers.
-- `policy/`: frozen weights and controller configuration; no optimizer state.
+- `webgpu/<content-hash>/`: base inference, distilled heads and retained item timing.
+- `policy/`: frozen weights and minimal inference configuration; no optimizer state.
 - `bogeo-driver.js`: original-game observation/action bridge and campaign controls.
 - `bogeo-adapter.js`, `bogeo-shop.js`: deterministic simulation and paid-shop adapters.
 
-Serve the repository with any static HTTP server; do not open `index.html` using a file URL. WebGPU requires a secure context (HTTPS or localhost). With Node installed, `node tests/test-server.js` starts the existing local server. Add `?simulation=true` to its URL. No compilation or dependency installation is needed for the deployed site.
+Serve the repository with a static HTTP server rather than opening `index.html`
+as a file. WebGPU requires HTTPS or localhost. With Node installed,
+`node tests/test-server.js` starts the existing local server. No compilation or
+package installation is required to use the deployed site.
 
 ## Credits and licence
 
-Original game, artwork and game design: **Gregory Hill**. Original repository history is retained, based on commit `2e082ddbc8a8180cc8cc6466b77619003721f9c2`. Browser agent integration and inference files were added in November 2026. Original documentation remains in [UPSTREAM_README.md](UPSTREAM_README.md).
+Original game, artwork and game design: **Gregory Hill**. Original repository
+history is retained, based on commit `2e082ddbc8a8180cc8cc6466b77619003721f9c2`.
+Original documentation remains in [UPSTREAM_README.md](UPSTREAM_README.md).
 
-The code and modifications are distributed under [GPL-3.0-only](LICENSE). See [NOTICE.md](NOTICE.md), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), and [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) for upstream asset and audio attribution and applicable terms.
+Code and modifications are distributed under [GPL-3.0-only](LICENSE). See
+[NOTICE.md](NOTICE.md), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and
+[THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) for upstream asset and audio
+attribution and applicable terms.

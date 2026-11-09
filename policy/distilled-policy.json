@@ -1,0 +1,161 @@
+{
+  "schema": 1,
+  "kind": "distilled_campaign",
+  "frames_per_action": 15,
+  "sampler_seed": 20261103,
+  "reset_shop_memory_rounds": [
+    21
+  ],
+  "item_timing": [
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 48,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 48,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 36,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 48,
+      "turboProfile": 2
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 48,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 46,
+      "musakProfile": 0,
+      "turboSeconds": 36,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 46,
+      "musakProfile": 0,
+      "turboSeconds": 24,
+      "turboProfile": 2
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 24,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 48,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 0,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    },
+    {
+      "musakSeconds": 56,
+      "musakProfile": 0,
+      "turboSeconds": 0,
+      "turboProfile": 0
+    }
+  ]
+}

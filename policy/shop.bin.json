@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "format_version": 1,
+  "format": "pufferlib.flat_float32",
+  "dtype": "float32",
+  "endianness": "little",
+  "alignment_elements": 8,
+  "logical_elements": 30748,
+  "padded_elements": 30752,
+  "parameter_count": 2,
+  "parameter_sizes": [
+    27136,
+    3612
+  ],
+  "parameter_offsets": [
+    0,
+    27136
+  ]
+}

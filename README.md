@@ -2,7 +2,7 @@
 
 [Watch the agent](https://whistlebee.github.io/lift-operator-webgpu/?simulation=true&policy=distilled-20261109) · [Original game](https://github.com/gregorycwhill/Lift-Operator)
 
-A trained campaign agent runs in your browser using WebGPU. No Python, native
+A trained campaign agent runs in your browser using WebGPU. The original game source lives in the pinned [`game/` submodule](game). No Python, native
 executable, inference service or API key is required.
 
 ## Run a campaign
@@ -68,16 +68,26 @@ Model assets are SHA-256 verified against [policy-manifest.json](policy-manifest
 - `bogeo-driver.js`: original-game observation/action bridge and campaign controls.
 - `bogeo-adapter.js`, `bogeo-shop.js`: deterministic simulation and paid-shop adapters.
 
-Serve the repository with a static HTTP server rather than opening `index.html`
-as a file. WebGPU requires HTTPS or localhost. With Node installed,
-`node tests/test-server.js` starts the existing local server. No compilation or
-package installation is required to use the deployed site.
+Clone with the submodule and start the local viewer:
+
+```sh
+git clone --recurse-submodules https://github.com/whistlebee/lift-operator-webgpu.git
+cd lift-operator-webgpu
+node tests/test-server.js
+```
+
+Open http://127.0.0.1:5500/?simulation=true. For an existing checkout, run
+`git submodule update --init` first. The server builds the site into `dist/`.
+You can also run `node scripts/build-site.mjs` and serve `dist/` with any static
+HTTP server. WebGPU requires HTTPS or localhost.
+
+GitHub Actions checks out the pinned game revision, adds the agent integration
+and publishes the generated site to Pages.
 
 ## Credits and licence
 
-Original game, artwork and game design: **Gregory Hill**. Original repository
-history is retained, based on commit `2e082ddbc8a8180cc8cc6466b77619003721f9c2`.
-Original documentation remains in [UPSTREAM_README.md](UPSTREAM_README.md).
+Original game, artwork and game design: **Gregory Hill**. The game submodule is pinned to commit `2e082ddbc8a8180cc8cc6466b77619003721f9c2`.
+Original documentation is in [the upstream repository](https://github.com/gregorycwhill/Lift-Operator/tree/2e082ddbc8a8180cc8cc6466b77619003721f9c2) and included in the built site.
 
 Code and modifications are distributed under [GPL-3.0-only](LICENSE). See
 [NOTICE.md](NOTICE.md), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and

@@ -1,22 +1,4 @@
-# Ignore local archives and temporary files
-Archive*/
-!docs/archive/
-!docs/archive/**
-*.tmp
-*.log
-reports/campaign-balance-acceptance.raw.json
-
-# Ignore editor settings
-.vscode/
-
-# Node and browser-test artifacts
+/dist/
+/.site-build-*/
 node_modules/
-test-results/
-playwright-report/
-.playwright-output/
-dist/
-.itch-staging/
-
-# Ignore OS files
 .DS_Store
-Thumbs.db

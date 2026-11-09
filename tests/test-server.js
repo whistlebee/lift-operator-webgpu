@@ -1,8 +1,9 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { execFileSync } = require('node:child_process');
 
-const root = path.resolve(__dirname, '..');
+const root = path.resolve(__dirname, '../dist');
 const port = Number(process.env.PORT || 5500);
 const host = process.env.HOST || '127.0.0.1';
 
@@ -74,6 +75,7 @@ function startTestServer() {
 module.exports = { createTestServer, startTestServer };
 
 if (require.main === module) {
+    execFileSync(process.execPath, [path.resolve(__dirname, '../scripts/build-site.mjs')], { stdio: 'inherit' });
     startTestServer().then(() => {
         console.log(`Lift Operator test server: http://${host}:${port}`);
     }).catch(error => {

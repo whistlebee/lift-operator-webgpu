@@ -12,6 +12,8 @@ round 1 with zero credits, uses ordinary paid purchases and earned credit
 carryover, and stops at the first failed round. **Allow retries** is off by
 default. Select **Max** speed to watch faster, or pause to inspect the game.
 Standalone round mode uses the selected round and starting credits instead.
+The site defaults to agent playback. To play the original game yourself, open
+the site with `?simulation=false`.
 
 The endurance round completes by natural death as defined by the original game;
 it is not a short survival-time shortcut. Retry-enabled and standalone runs are

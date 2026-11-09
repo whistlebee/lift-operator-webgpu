@@ -30,11 +30,13 @@ try {
 
     const page = join(site, 'index.html');
     const html = readFileSync(page, 'utf8');
-    if (!html.includes('</body>')) throw new Error('Upstream index.html is missing its closing body tag');
+    if (!html.includes('<head>') || !html.includes('</body>')) throw new Error('Unexpected upstream index.html structure');
+    const viewerMode = readFileSync(join(root, 'scripts', 'viewer-mode.js'), 'utf8');
     const integration = '<script src="./bogeo-adapter.js"></script>'
         + '<script src="./bogeo-shop.js"></script>'
-        + '<script type="module" src="./bogeo-webgpu.mjs?distilled=1"></script>';
-    writeFileSync(page, html.replace('</body>', integration + '</body>'));
+        + '<script type="module" src="./bogeo-webgpu.mjs?distilled=2"></script>';
+    writeFileSync(page, html.replace('<head>', `<head>\n<script id="bogeo-viewer-mode">${viewerMode}</script>`)
+        .replace('</body>', integration + '</body>'));
 
     const output = join(root, 'dist');
     rmSync(output, { recursive: true, force: true });

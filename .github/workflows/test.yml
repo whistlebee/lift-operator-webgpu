@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 24
       - run: node scripts/build-site.mjs
-      - run: node --test tests/webgpu-release.test.mjs
+      - run: node --test tests/*.test.mjs
       - run: node dist/scripts/check-syntax.js
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
